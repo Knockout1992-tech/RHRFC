@@ -1,1 +1,6163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
 
+<title>Club Check-In</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+}
+
+body {
+    min-height: 100vh;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+/* =========================
+   APP HEADER
+   ========================= */
+
+.app-header {
+    background: #000;
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+.brand-title {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.brand-season {
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 2px;
+}
+
+.header-button {
+    background: #333;
+    border: 0;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 11px;
+    font-size: 12px;
+}
+
+/* =========================
+   MAIN
+   ========================= */
+
+.page {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.back-button {
+    background: #e5e5e5;
+    border: 0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.primary-button {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: 0;
+    border-radius: 11px;
+    padding: 16px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.secondary-button {
+    background: #ddd;
+    color: #111;
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 14px;
+    font-weight: 700;
+}
+
+.green-button {
+    background: #198754;
+    color: #fff;
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 14px;
+    font-weight: 700;
+}
+
+.red-button {
+    background: #c82333;
+    color: #fff;
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 13px;
+    font-weight: 700;
+}
+
+.blue-button {
+    background: #0d6efd;
+    color: #fff;
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 14px;
+    font-weight: 700;
+}
+
+.small-button {
+    padding: 8px 11px;
+    font-size: 12px;
+}
+
+/* =========================
+   WELCOME
+   ========================= */
+
+.welcome {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 18px;
+}
+
+.welcome-card {
+    width: 100%;
+    max-width: 430px;
+    text-align: center;
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.welcome-logo {
+    width: 135px;
+    height: 135px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.welcome-title {
+    font-size: 31px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.welcome-club {
+    color: #666;
+    margin-bottom: 28px;
+}
+
+.role-button {
+    width: 100%;
+    padding: 17px;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 11px;
+    background: #000;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+}
+
+/* =========================
+   PIN
+   ========================= */
+
+.pin-card {
+    max-width: 420px;
+    margin: 45px auto;
+    text-align: center;
+}
+
+.pin-input {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    font-size: 25px;
+    letter-spacing: 7px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.error {
+    min-height: 22px;
+    color: #c82333;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+/* =========================
+   AGE GROUPS
+   ========================= */
+
+.age-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.age-button {
+    background: #111;
+    color: #fff;
+    border: 0;
+    border-radius: 11px;
+    padding: 19px 8px;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: none;
+}
+
+.age-button.gms-needs-confirmation {
+    background: #d6a900;
+    color: #111;
+}
+
+.age-button.selected-age {
+    background: #198754;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+    filter: brightness(0.92);
+}
+
+/* =========================
+   DASHBOARD
+   ========================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 15px 0;
+}
+
+.stat {
+    background: #f0f0f0;
+    border-radius: 10px;
+    padding: 13px 7px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.menu-button {
+    min-height: 82px;
+    border: 0;
+    border-radius: 12px;
+    background: #111;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px;
+    box-shadow: none;
+}
+
+.menu-button.blue {
+    background: #0d6efd;
+}
+
+/* =========================
+   PLAYER ROW
+   ========================= */
+
+.player-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.player-row:last-child {
+    border-bottom: 0;
+}
+
+.player-name {
+    font-weight: 700;
+}
+
+.player-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.player-small {
+    color: #777;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.row-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gms-count {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.7;
+}
+
+.player-management-row {
+    flex-direction: row !important;
+    align-items: center !important;
+}
+
+/* =========================
+   SLIDE TOGGLES
+   ========================= */
+
+.toggle {
+    position: relative;
+    display: inline-flex;
+    width: 108px;
+    height: 38px;
+    border-radius: 30px;
+    cursor: pointer;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.toggle input {
+    display: none;
+}
+
+.toggle-knob {
+    position: absolute;
+    top: 4px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0,0,0,.25);
+    transition: left .18s ease;
+    z-index: 2;
+}
+
+.toggle-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    z-index: 3;
+}
+
+.toggle.present,
+.toggle.confirmed {
+    background: #198754;
+}
+
+.toggle.absent,
+.toggle.not-confirmed {
+    background: #c82333;
+}
+
+.toggle.present .toggle-knob,
+.toggle.confirmed .toggle-knob {
+    left: 74px;
+}
+
+.toggle.absent .toggle-knob,
+.toggle.not-confirmed .toggle-knob {
+    left: 4px;
+}
+
+.toggle.present .toggle-label {
+    justify-content: flex-start;
+    padding-left: 10px;
+}
+
+.toggle.absent .toggle-label {
+    justify-content: flex-end;
+    padding-right: 9px;
+}
+
+.toggle.gms-toggle .toggle-label {
+    display: none;
+}
+
+.toggle.gms-toggle {
+    width: 54px;
+    height: 30px;
+}
+
+.toggle.gms-toggle .toggle-knob {
+    width: 22px;
+    height: 22px;
+    top: 4px;
+}
+
+.toggle.gms-toggle.confirmed .toggle-knob {
+    left: 28px;
+}
+
+.toggle.gms-toggle.not-confirmed .toggle-knob {
+    left: 4px;
+}
+
+.toggle.gms-toggle.locked {
+    opacity: 0.55;
+    cursor: default;
+}
+
+/* =========================
+   REGISTER STATUS
+   ========================= */
+
+.register-status {
+    padding: 11px 13px;
+    border-radius: 9px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.register-open {
+    background: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #a3cfbb;
+}
+
+.register-submitted {
+    background: #e2e3e5;
+    color: #41464b;
+    border: 1px solid #d3d6d8;
+}
+
+.gms-suggestion {
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.gms-suggestion-label {
+    font-size: 11px;
+    color: #666;
+    font-weight: 700;
+}
+
+/* =========================
+   FORMS
+   ========================= */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label.title {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.text-input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+/* =========================
+   INFORMATION BOXES
+   ========================= */
+
+.info-box {
+    padding: 13px;
+    border-radius: 9px;
+    margin-bottom: 15px;
+    background: #eee;
+    font-size: 14px;
+}
+
+.warning-box {
+    background: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffe69c;
+}
+
+.danger-box {
+    background: #f8d7da;
+    color: #842029;
+    border: 1px solid #f1aeb5;
+}
+
+.success-box {
+    background: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #a3cfbb;
+}
+
+/* =========================
+   LISTS
+   ========================= */
+
+.list-row {
+    padding: 13px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.list-row:last-child {
+    border-bottom: 0;
+}
+
+.list-title {
+    font-weight: 700;
+}
+
+.list-sub {
+    color: #666;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.promotion-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.promotion-row:last-child {
+    border-bottom: 0;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+    padding: 25px 10px;
+}
+
+/* =========================
+   SENIOR ALL PLAYERS
+   ========================= */
+
+.age-section {
+    margin-top: 20px;
+}
+
+.age-section:first-child {
+    margin-top: 0;
+}
+
+.age-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    color: #fff;
+    padding: 11px 13px;
+    border-radius: 9px;
+    font-weight: 700;
+}
+
+.age-section-warning {
+    background: #d6a900;
+    color: #111;
+}
+
+.age-section-count {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.archive-age-title {
+    background: #555;
+}
+
+.archive-due {
+    background: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffe69c;
+}
+
+/* =========================
+   MULTI AGE SELECTION
+   ========================= */
+
+.multi-age-summary {
+    padding: 12px 13px;
+    background: #eee;
+    border-radius: 9px;
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.multi-age-summary strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.multi-age-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 520px) {
+
+    .page {
+        padding: 10px;
+    }
+
+    .card {
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    .age-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 13px;
+    }
+
+    .age-button {
+        padding: 17px 5px;
+        font-size: 17px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+    }
+
+    .menu-button {
+        min-height: 75px;
+        font-size: 14px;
+    }
+
+    .player-row {
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .row-actions {
+        width: auto;
+        justify-content: flex-end;
+    }
+
+    .player-management-row {
+        flex-direction: row !important;
+        align-items: center !important;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .age-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .stat-number {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
+
+/* =========================================================
+   CLUB CHECK-IN
+   ========================================================= */
+
+const ageGroups = [
+    "U6",
+    "U7",
+    "U8",
+    "U9",
+    "U10",
+    "U11",
+    "U12",
+    "U13",
+    "U14",
+    "U15",
+    "U16",
+    "U17",
+    "U18"
+];
+
+/* =========================================================
+   ACCESS
+   ========================================================= */
+
+let coachPIN = "1234";
+let seniorPIN = "9999";
+
+/* =========================================================
+   SEASON
+   ========================================================= */
+
+let currentSeason = "2026/27";
+
+/* =========================================================
+   CURRENT SESSION
+   ========================================================= */
+
+let currentRole = null;
+let currentAgeGroup = null;
+let selectedAgeGroups = [];
+
+/* =========================================================
+   DAILY REGISTERS
+   ========================================================= */
+
+let dailyRegisters = {};
+
+/* =========================================================
+   PLAYERS
+   ========================================================= */
+
+let players = {
+
+    U6: [
+        {
+            id: 101,
+            name: "Alfie Carter",
+            ageGroup: "U6",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-27"
+        },
+        {
+            id: 102,
+            name: "Charlie Brooks",
+            ageGroup: "U6",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-27"
+        },
+        {
+            id: 103,
+            name: "Archie Cooper",
+            ageGroup: "U6",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-06-20"
+        },
+        {
+            id: 104,
+            name: "Freddie Baker",
+            ageGroup: "U6",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-20"
+        }
+    ],
+
+    U7: [
+        {
+            id: 201,
+            name: "George Miller",
+            ageGroup: "U7",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-22"
+        },
+        {
+            id: 202,
+            name: "Harry Wilson",
+            ageGroup: "U7",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-22"
+        },
+        {
+            id: 203,
+            name: "Oscar Turner",
+            ageGroup: "U7",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-06-15"
+        },
+        {
+            id: 204,
+            name: "Theo Green",
+            ageGroup: "U7",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-22"
+        }
+    ],
+
+    U8: [
+        {
+            id: 1,
+            name: "Player One",
+            ageGroup: "U8",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+        {
+            id: 2,
+            name: "Player Two",
+            ageGroup: "U8",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+        {
+            id: 3,
+            name: "Player Three",
+            ageGroup: "U8",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+        {
+            id: 4,
+            name: "Player Four",
+            ageGroup: "U8",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+        {
+            id: 5,
+            name: "Ben Harris",
+            ageGroup: "U8",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+        {
+            id: 6,
+            name: "Ethan Wright",
+            ageGroup: "U8",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+        {
+            id: 7,
+            name: "Liam Foster",
+            ageGroup: "U8",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+        {
+            id: 8,
+            name: "Noah Collins",
+            ageGroup: "U8",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-28"
+        },
+
+        /* Archived player available for Coach restore testing */
+        {
+            id: 9,
+            name: "Archived U8 Player",
+            ageGroup: "U8",
+            gms: true,
+            coachGmsSuggestion: false,
+            active: false,
+            archived: true,
+            lastAttendanceDate: "2026-05-10"
+        }
+    ],
+
+    U9: [
+        {
+            id: 301,
+            name: "Jack Taylor",
+            ageGroup: "U9",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-27"
+        },
+        {
+            id: 302,
+            name: "Leo Martin",
+            ageGroup: "U9",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-27"
+        },
+        {
+            id: 303,
+            name: "Mason Wood",
+            ageGroup: "U9",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-06-25"
+        }
+    ],
+
+    U10: [
+        {
+            id: 401,
+            name: "Oliver Smith",
+            ageGroup: "U10",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-26"
+        },
+        {
+            id: 402,
+            name: "Noah Jones",
+            ageGroup: "U10",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-26"
+        },
+        {
+            id: 403,
+            name: "Finley Moore",
+            ageGroup: "U10",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-06-10"
+        }
+    ],
+
+    U11: [
+        {
+            id: 501,
+            name: "Thomas Brown",
+            ageGroup: "U11",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-25"
+        },
+        {
+            id: 502,
+            name: "Oscar Davies",
+            ageGroup: "U11",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-25"
+        },
+        {
+            id: 503,
+            name: "Charlie Fox",
+            ageGroup: "U11",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-07-01"
+        }
+    ],
+
+    U12: [
+        {
+            id: 601,
+            name: "James Evans",
+            ageGroup: "U12",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-24"
+        },
+        {
+            id: 602,
+            name: "William Thomas",
+            ageGroup: "U12",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-24"
+        },
+        {
+            id: 603,
+            name: "Henry White",
+            ageGroup: "U12",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-05-30"
+        }
+    ],
+
+    U13: [
+        {
+            id: 701,
+            name: "Charlie Roberts",
+            ageGroup: "U13",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-23"
+        },
+        {
+            id: 702,
+            name: "Jacob Walker",
+            ageGroup: "U13",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-23"
+        },
+        {
+            id: 703,
+            name: "Arthur King",
+            ageGroup: "U13",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-06-01"
+        }
+    ],
+
+    U14: [
+        {
+            id: 801,
+            name: "Lucas Robinson",
+            ageGroup: "U14",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-20"
+        },
+        {
+            id: 802,
+            name: "Henry Clark",
+            ageGroup: "U14",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-20"
+        },
+        {
+            id: 803,
+            name: "Riley James",
+            ageGroup: "U14",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-05-15"
+        }
+    ],
+
+    U15: [
+        {
+            id: 901,
+            name: "Freddie Lewis",
+            ageGroup: "U15",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-19"
+        },
+        {
+            id: 902,
+            name: "Archie Lee",
+            ageGroup: "U15",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-19"
+        },
+        {
+            id: 903,
+            name: "Toby Harris",
+            ageGroup: "U15",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-06-05"
+        }
+    ],
+
+    U16: [
+        {
+            id: 1001,
+            name: "Finley Walker",
+            ageGroup: "U16",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-18"
+        },
+        {
+            id: 1002,
+            name: "Theo Hall",
+            ageGroup: "U16",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-18"
+        },
+        {
+            id: 1003,
+            name: "Reggie Young",
+            ageGroup: "U16",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-05-25"
+        }
+    ],
+
+    U17: [
+        {
+            id: 1101,
+            name: "Charlie Allen",
+            ageGroup: "U17",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-17"
+        },
+        {
+            id: 1102,
+            name: "Alfie Young",
+            ageGroup: "U17",
+            gms: false,
+            coachGmsSuggestion: false,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-17"
+        },
+        {
+            id: 1103,
+            name: "Louie Scott",
+            ageGroup: "U17",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-06-12"
+        }
+    ],
+
+    U18: [
+        {
+            id: 1201,
+            name: "Sam King",
+            ageGroup: "U18",
+            gms: true,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-16"
+        },
+        {
+            id: 1202,
+            name: "Max Wright",
+            ageGroup: "U18",
+            gms: false,
+            coachGmsSuggestion: true,
+            active: true,
+            archived: false,
+            lastAttendanceDate: "2026-09-16"
+        }
+    ]
+
+};
+
+/* =========================================================
+   SESSIONS
+   ========================================================= */
+
+let sessions = {
+
+    U6: [
+        {
+            date: "21/09/2026",
+            dateKey: "2026-09-21",
+            present: 2,
+            total: 4
+        }
+    ],
+
+    U7: [
+        {
+            date: "22/09/2026",
+            dateKey: "2026-09-22",
+            present: 2,
+            total: 4
+        }
+    ],
+
+    U8: [
+        {
+            date: "28/09/2026",
+            dateKey: "2026-09-28",
+            present: 5,
+            total: 8
+        }
+    ],
+
+    U9: [
+        {
+            date: "27/09/2026",
+            dateKey: "2026-09-27",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U10: [
+        {
+            date: "26/09/2026",
+            dateKey: "2026-09-26",
+            present: 1,
+            total: 3
+        }
+    ],
+
+    U11: [
+        {
+            date: "25/09/2026",
+            dateKey: "2026-09-25",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U12: [
+        {
+            date: "24/09/2026",
+            dateKey: "2026-09-24",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U13: [
+        {
+            date: "23/09/2026",
+            dateKey: "2026-09-23",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U14: [
+        {
+            date: "20/09/2026",
+            dateKey: "2026-09-20",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U15: [
+        {
+            date: "19/09/2026",
+            dateKey: "2026-09-19",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U16: [
+        {
+            date: "18/09/2026",
+            dateKey: "2026-09-18",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U17: [
+        {
+            date: "17/09/2026",
+            dateKey: "2026-09-17",
+            present: 2,
+            total: 3
+        }
+    ],
+
+    U18: [
+        {
+            date: "16/09/2026",
+            dateKey: "2026-09-16",
+            present: 1,
+            total: 2
+        }
+    ]
+
+};
+
+/* =========================================================
+   STORAGE / DATE HELPERS
+   ========================================================= */
+
+function getTodayKey() {
+
+    const now = new Date();
+
+    return now.getFullYear()
+        + "-"
+        + String(now.getMonth() + 1).padStart(2, "0")
+        + "-"
+        + String(now.getDate()).padStart(2, "0");
+
+}
+
+function getDisplayDate(dateKey) {
+
+    const parts = dateKey.split("-");
+
+    return parts[2] + "/" + parts[1] + "/" + parts[0];
+
+}
+
+function getDaysSinceDate(dateKey) {
+
+    if (!dateKey) {
+        return null;
+    }
+
+    const last =
+        new Date(dateKey + "T00:00:00");
+
+    const today =
+        new Date(getTodayKey() + "T00:00:00");
+
+    const difference =
+        today.getTime() - last.getTime();
+
+    return Math.floor(
+        difference / 86400000
+    );
+
+}
+
+function getWeeksSinceDate(dateKey) {
+
+    const days =
+        getDaysSinceDate(dateKey);
+
+    if (days === null) {
+        return null;
+    }
+
+    return Math.floor(days / 7);
+
+}
+
+function isArchiveReviewDue(player) {
+
+    if (!player.active || player.archived) {
+        return false;
+    }
+
+    if (!player.lastAttendanceDate) {
+        return false;
+    }
+
+    return getDaysSinceDate(
+        player.lastAttendanceDate
+    ) >= 84;
+
+}
+
+/* =========================================================
+   PLAYER FINDER
+   ========================================================= */
+
+function findPlayerByID(playerID) {
+
+    for (const ageGroup of ageGroups) {
+
+        if (!players[ageGroup]) {
+            continue;
+        }
+
+        const player =
+            players[ageGroup].find(
+                player =>
+                    String(player.id) === String(playerID)
+            );
+
+        if (player) {
+            return player;
+        }
+
+    }
+
+    return null;
+
+}
+
+/* =========================================================
+   LOAD SAVED DATA
+   ========================================================= */
+
+function loadSavedData() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    "clubCheckInData"
+                )
+            );
+
+        if (saved) {
+
+            if (saved.players) {
+                players = saved.players;
+            }
+
+            if (saved.sessions) {
+                sessions = saved.sessions;
+            }
+
+            if (saved.dailyRegisters) {
+                dailyRegisters =
+                    saved.dailyRegisters;
+            }
+
+            if (saved.currentSeason) {
+                currentSeason =
+                    saved.currentSeason;
+            }
+
+            if (saved.coachPIN) {
+                coachPIN =
+                    saved.coachPIN;
+            }
+
+            if (saved.seniorPIN) {
+                seniorPIN =
+                    saved.seniorPIN;
+            }
+
+        }
+
+        ageGroups.forEach(ageGroup => {
+
+            if (!players[ageGroup]) {
+                players[ageGroup] = [];
+            }
+
+            if (!sessions[ageGroup]) {
+                sessions[ageGroup] = [];
+            }
+
+            players[ageGroup].forEach(player => {
+
+                if (
+                    typeof player.coachGmsSuggestion
+                    !== "boolean"
+                ) {
+
+                    player.coachGmsSuggestion =
+                        !!player.gms;
+
+                }
+
+                if (
+                    typeof player.archived
+                    !== "boolean"
+                ) {
+
+                    player.archived = false;
+
+                }
+
+                if (
+                    typeof player.active
+                    !== "boolean"
+                ) {
+
+                    player.active =
+                        !player.archived;
+
+                }
+
+                if (
+                    typeof player.lastAttendanceDate
+                    === "undefined"
+                ) {
+
+                    player.lastAttendanceDate =
+                        null;
+
+                }
+
+            });
+
+        });
+
+        backfillLastAttendanceDates();
+
+    } catch (error) {
+
+        console.log(
+            "Saved data could not be loaded.",
+            error
+        );
+
+    }
+
+}
+
+/* =========================================================
+   BACKFILL ATTENDANCE
+   ========================================================= */
+
+function backfillLastAttendanceDates() {
+
+    Object.keys(dailyRegisters)
+        .forEach(dateKey => {
+
+            const day =
+                dailyRegisters[dateKey];
+
+            if (!day) {
+                return;
+            }
+
+            Object.keys(day)
+                .forEach(ageGroup => {
+
+                    const register =
+                        day[ageGroup];
+
+                    if (
+                        !register ||
+                        !register.attendance
+                    ) {
+                        return;
+                    }
+
+                    Object.keys(
+                        register.attendance
+                    ).forEach(playerID => {
+
+                        if (
+                            register.attendance[playerID]
+                            !== true
+                        ) {
+                            return;
+                        }
+
+                        const player =
+                            findPlayerByID(
+                                playerID
+                            );
+
+                        if (!player) {
+                            return;
+                        }
+
+                        if (
+                            !player.lastAttendanceDate ||
+                            dateKey >
+                            player.lastAttendanceDate
+                        ) {
+
+                            player.lastAttendanceDate =
+                                dateKey;
+
+                        }
+
+                    });
+
+                });
+
+        });
+
+}
+
+function saveData() {
+
+    localStorage.setItem(
+        "clubCheckInData",
+        JSON.stringify({
+
+            players:
+                players,
+
+            sessions:
+                sessions,
+
+            dailyRegisters:
+                dailyRegisters,
+
+            currentSeason:
+                currentSeason,
+
+            coachPIN:
+                coachPIN,
+
+            seniorPIN:
+                seniorPIN
+
+        })
+    );
+
+}
+
+/* =========================================================
+   ACTIVE PLAYERS
+   ========================================================= */
+
+function getActivePlayers(ageGroup) {
+
+    if (!players[ageGroup]) {
+        return [];
+    }
+
+    return players[ageGroup]
+        .filter(player =>
+            player.active &&
+            !player.archived
+        );
+
+}
+
+function getAllActivePlayers() {
+
+    let result = [];
+
+    ageGroups.forEach(ageGroup => {
+
+        getActivePlayers(ageGroup)
+            .forEach(player => {
+
+                result.push(player);
+
+            });
+
+    });
+
+    return result;
+
+}
+
+/* =========================================================
+   REGISTER HELPERS
+   ========================================================= */
+
+function closeExpiredRegisters() {
+
+    const todayKey =
+        getTodayKey();
+
+    Object.keys(dailyRegisters)
+        .forEach(dateKey => {
+
+            if (dateKey >= todayKey) {
+                return;
+            }
+
+            Object.keys(
+                dailyRegisters[dateKey]
+            ).forEach(ageGroup => {
+
+                const register =
+                    dailyRegisters[
+                        dateKey
+                    ][ageGroup];
+
+                if (
+                    register &&
+                    !register.submitted
+                ) {
+
+                    submitDailyRegister(
+                        dateKey,
+                        ageGroup,
+                        true
+                    );
+
+                }
+
+            });
+
+        });
+
+}
+
+function submitDailyRegister(
+    dateKey,
+    ageGroup,
+    automatic = false
+) {
+
+    if (!dailyRegisters[dateKey]) {
+        return;
+    }
+
+    const register =
+        dailyRegisters[
+            dateKey
+        ][ageGroup];
+
+    if (!register) {
+        return;
+    }
+
+    /*
+        Only prevent an automatic close
+        from running more than once.
+
+        Normal manual use does NOT get blocked.
+    */
+
+    if (
+        register.submitted &&
+        automatic
+    ) {
+        return;
+    }
+
+    const active =
+        getActivePlayers(
+            ageGroup
+        );
+
+    const attendance =
+        register.attendance || {};
+
+    const presentPlayers =
+        active.filter(
+            player =>
+                attendance[player.id] === true
+        );
+
+    presentPlayers.forEach(
+        player => {
+
+            player.lastAttendanceDate =
+                dateKey;
+
+        }
+    );
+
+    const present =
+        presentPlayers.length;
+
+    if (!sessions[ageGroup]) {
+        sessions[ageGroup] = [];
+    }
+
+    let existingSession =
+        sessions[ageGroup].find(
+            session =>
+                session.dateKey === dateKey
+        );
+
+    if (existingSession) {
+
+        existingSession.date =
+            getDisplayDate(
+                dateKey
+            );
+
+        existingSession.present =
+            present;
+
+        existingSession.total =
+            active.length;
+
+    } else {
+
+        sessions[ageGroup].push({
+
+            date:
+                getDisplayDate(
+                    dateKey
+                ),
+
+            dateKey:
+                dateKey,
+
+            present:
+                present,
+
+            total:
+                active.length
+
+        });
+
+    }
+
+    /*
+        Record that the register has been
+        processed, but do NOT use this as
+        a lock for the coach.
+    */
+
+    register.submitted =
+        automatic;
+
+    register.closedAutomatically =
+        automatic;
+
+    saveData();
+
+}
+
+function getTodayRegister(ageGroup) {
+
+    const todayKey =
+        getTodayKey();
+
+    if (
+        dailyRegisters[todayKey] &&
+        dailyRegisters[todayKey][ageGroup]
+    ) {
+
+        return dailyRegisters[
+            todayKey
+        ][ageGroup];
+
+    }
+
+    return null;
+
+}
+
+function createTodayRegister(ageGroup) {
+
+    const todayKey =
+        getTodayKey();
+
+    if (!dailyRegisters[todayKey]) {
+        dailyRegisters[todayKey] = {};
+    }
+
+    if (
+        !dailyRegisters[todayKey][ageGroup]
+    ) {
+
+        const attendance = {};
+
+        getActivePlayers(
+            ageGroup
+        ).forEach(player => {
+
+            attendance[player.id] =
+                false;
+
+        });
+
+        dailyRegisters[
+            todayKey
+        ][ageGroup] = {
+
+            submitted:
+                false,
+
+            closedAutomatically:
+                false,
+
+            attendance:
+                attendance
+
+        };
+
+        saveData();
+
+    }
+
+    return dailyRegisters[
+        todayKey
+    ][ageGroup];
+
+}
+
+function reopenTodayRegister() {
+
+    selectedAgeGroups.forEach(
+        ageGroup => {
+
+            const register =
+                getTodayRegister(
+                    ageGroup
+                );
+
+            if (!register) {
+                return;
+            }
+
+            /*
+                Today's register is always editable.
+            */
+
+            register.submitted =
+                false;
+
+            register.closedAutomatically =
+                false;
+
+        }
+    );
+
+    saveData();
+
+    showRegister();
+
+}
+
+/* =========================================================
+   GENERAL HELPERS
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+function getNextAgeGroup(ageGroup) {
+
+    const index =
+        ageGroups.indexOf(ageGroup);
+
+    if (index < 0) {
+        return null;
+    }
+
+    if (
+        index >= ageGroups.length - 1
+    ) {
+        return null;
+    }
+
+    return ageGroups[
+        index + 1
+    ];
+
+}
+
+function getNextSeason(season) {
+
+    const parts =
+        season.split("/");
+
+    const start =
+        parseInt(parts[0], 10);
+
+    const end =
+        parseInt(parts[1], 10);
+
+    return (
+        start + 1
+    ) + "/" + (
+        String(end + 1).slice(-2)
+    );
+
+}
+
+function ageGroupNeedsGMSConfirmation(
+    ageGroup
+) {
+
+    return getActivePlayers(
+        ageGroup
+    ).some(
+        player =>
+            !player.gms
+    );
+
+}
+
+/* =========================================================
+   SHELL
+   ========================================================= */
+
+function renderShell(
+    content,
+    showHome = true
+) {
+
+    document.getElementById(
+        "app"
+    ).innerHTML = `
+
+        <div class="app-header">
+
+            <div class="brand">
+
+                <img
+                    src="RHRFC.jpg"
+                    alt="RHRFC">
+
+                <div>
+
+                    <div class="brand-title">
+                        CLUB CHECK-IN
+                    </div>
+
+                    <div class="brand-season">
+                        Season ${currentSeason}
+                    </div>
+
+                </div>
+
+            </div>
+
+            ${
+                showHome
+                ? `
+
+                    <div class="header-actions">
+
+                        <button
+                            class="header-button"
+                            onclick="goHome()">
+
+                            Home
+
+                        </button>
+
+                        <button
+                            class="header-button"
+                            onclick="logout()">
+
+                            Logout
+
+                        </button>
+
+                    </div>
+
+                `
+                : ""
+            }
+
+        </div>
+
+        <main class="page">
+
+            ${content}
+
+        </main>
+
+    `;
+
+}
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+function goHome() {
+
+    if (
+        currentRole === "coach"
+    ) {
+
+        currentAgeGroup = null;
+        selectedAgeGroups = [];
+
+        showCoachAgeGroups();
+
+        return;
+
+    }
+
+    if (
+        currentRole === "senior"
+    ) {
+
+        showSeniorDashboard();
+
+        return;
+
+    }
+
+    showWelcome();
+
+}
+
+
+function logout() {
+
+    currentRole = null;
+
+    currentAgeGroup = null;
+
+    selectedAgeGroups = [];
+
+    showWelcome();
+
+}
+
+function showWelcome() {
+
+    currentRole = null;
+    currentAgeGroup = null;
+    selectedAgeGroups = [];
+
+    document.getElementById(
+        "app"
+    ).innerHTML = `
+
+        <div class="welcome">
+
+            <div class="welcome-card">
+
+                <img
+                    src="RHRFC.jpg"
+                    class="welcome-logo"
+                    alt="Rushden & Higham RFC">
+
+                <div class="welcome-title">
+                    CLUB CHECK-IN
+                </div>
+
+                <div class="welcome-club">
+                    Rushden & Higham RFC
+                </div>
+
+                <button
+                    class="role-button"
+                    onclick="showPIN('coach')">
+
+                    Coach
+
+                </button>
+
+                <button
+                    class="role-button"
+                    onclick="showPIN('senior')">
+
+                    Senior Member
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+/* =========================================================
+   PIN
+   ========================================================= */
+
+function showPIN(role) {
+
+    currentRole = role;
+
+    const roleName =
+        role === "coach"
+        ? "Coach"
+        : "Senior Member";
+
+    renderShell(`
+
+        <div class="card pin-card">
+
+            <button
+                class="back-button"
+                onclick="showWelcome()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                ${roleName} Access
+            </h2>
+
+            <div class="subtitle">
+
+                Enter your PIN to continue.
+
+            </div>
+
+            <input
+                id="pinInput"
+                class="pin-input"
+                type="password"
+                inputmode="numeric"
+                maxlength="8"
+                autocomplete="off">
+
+            <div
+                id="pinError"
+                class="error">
+            </div>
+
+            <button
+                class="primary-button"
+                onclick="checkPIN()">
+
+                Continue
+
+            </button>
+
+        </div>
+
+    `);
+
+    document.getElementById(
+        "pinInput"
+    ).focus();
+
+}
+
+function checkPIN() {
+
+    const entered =
+        document.getElementById(
+            "pinInput"
+        ).value;
+
+    if (
+        currentRole === "coach" &&
+        entered === coachPIN
+    ) {
+
+        showCoachAgeGroups();
+
+        return;
+
+    }
+
+    if (
+        currentRole === "senior" &&
+        entered === seniorPIN
+    ) {
+
+        showSeniorDashboard();
+
+        return;
+
+    }
+
+    document.getElementById(
+        "pinError"
+    ).textContent =
+        "Incorrect PIN.";
+
+}
+
+/* =========================================================
+   COACH AGE GROUP SELECTION
+   ========================================================= */
+
+function showCoachAgeGroups() {
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showWelcome()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Select Age Groups
+            </h2>
+
+            <div class="subtitle">
+
+                Select one or more teams. You can manage
+                several age groups in one register.
+
+            </div>
+
+            <div class="multi-age-summary">
+
+                <strong>
+                    Selected:
+                </strong>
+
+                ${
+                    selectedAgeGroups.length
+                    ? escapeHTML(
+                        selectedAgeGroups.join(
+                            " + "
+                        )
+                    )
+                    : "None selected"
+                }
+
+            </div>
+
+            <div class="age-grid">
+
+                ${
+                    ageGroups.map(age => {
+
+                        const selected =
+                            selectedAgeGroups
+                                .includes(age);
+
+                        return `
+
+                            <button
+                                class="
+                                    age-button
+                                    ${
+                                        selected
+                                        ? "selected-age"
+                                        : ""
+                                    }
+                                "
+                                onclick="
+                                    toggleCoachAgeGroup(
+                                        '${age}'
+                                    )
+                                ">
+
+                                ${age}
+
+                            </button>
+
+                        `;
+
+                    }).join("")
+                }
+
+            </div>
+
+            <br>
+
+            <div class="multi-age-actions">
+
+                <button
+                    class="secondary-button"
+                    onclick="
+                        selectCoachAgeGroups(
+                            ageGroups
+                        )
+                    ">
+
+                    Select All
+
+                </button>
+
+                <button
+                    class="secondary-button"
+                    onclick="
+                        selectedAgeGroups = [];
+                        currentAgeGroup = null;
+                        showCoachAgeGroups();
+                    ">
+
+                    Clear
+
+                </button>
+
+            </div>
+
+            <button
+                class="primary-button"
+                onclick="
+                    openSelectedCoachAgeGroups()
+                "
+                ${
+                    selectedAgeGroups.length === 0
+                    ? "disabled"
+                    : ""
+                }>
+
+                Continue
+
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+function toggleCoachAgeGroup(
+    ageGroup
+) {
+
+    if (
+        selectedAgeGroups.includes(
+            ageGroup
+        )
+    ) {
+
+        selectedAgeGroups =
+            selectedAgeGroups.filter(
+                age =>
+                    age !== ageGroup
+            );
+
+    } else {
+
+        selectedAgeGroups.push(
+            ageGroup
+        );
+
+        selectedAgeGroups =
+            ageGroups.filter(
+                age =>
+                    selectedAgeGroups
+                        .includes(age)
+            );
+
+    }
+
+    showCoachAgeGroups();
+
+}
+
+function selectCoachAgeGroups(
+    groups
+) {
+
+    selectedAgeGroups =
+        [...groups];
+
+    showCoachAgeGroups();
+
+}
+
+function openSelectedCoachAgeGroups() {
+
+    if (
+        selectedAgeGroups.length === 0
+    ) {
+
+        alert(
+            "Please select at least one age group."
+        );
+
+        return;
+
+    }
+
+    currentAgeGroup =
+        selectedAgeGroups[0];
+
+    showCoachDashboard();
+
+}
+
+/* =========================================================
+   COACH DASHBOARD
+   ========================================================= */
+
+function showCoachDashboard() {
+
+    const groups =
+        selectedAgeGroups.length
+        ? selectedAgeGroups
+        : [currentAgeGroup];
+
+    let activeCount = 0;
+    let presentCount = 0;
+
+    groups.forEach(ageGroup => {
+
+        const active =
+            getActivePlayers(
+                ageGroup
+            );
+
+        const register =
+            getTodayRegister(
+                ageGroup
+            );
+
+        activeCount +=
+            active.length;
+
+        if (register) {
+
+            presentCount +=
+                active.filter(
+                    player =>
+                        register.attendance[
+                            player.id
+                        ] === true
+                ).length;
+
+        }
+
+    });
+
+    const absentCount =
+        activeCount -
+        presentCount;
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showCoachAgeGroups()">
+
+                ← Age Groups
+
+            </button>
+
+            <h2>
+                ${
+                    groups.length === 1
+                    ? groups[0]
+                    : "Multiple Age Groups"
+                }
+            </h2>
+
+            <div class="subtitle">
+
+                ${
+                    groups.join(
+                        " + "
+                    )
+                }
+
+                <br>
+
+                Coach Dashboard
+
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-number">
+                        ${activeCount}
+                    </div>
+
+                    <div class="stat-label">
+                        Players
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-number">
+                        ${presentCount}
+                    </div>
+
+                    <div class="stat-label">
+                        Present
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-number">
+                        ${absentCount}
+                    </div>
+
+                    <div class="stat-label">
+                        Absent
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="menu-grid">
+
+                <button
+                    class="menu-button"
+                    onclick="showRegister()">
+
+                    Today's<br>
+                    Register
+
+                </button>
+
+                <button
+                    class="menu-button"
+                    onclick="showRoster()">
+
+                    Roster
+
+                </button>
+
+                <button
+                    class="menu-button"
+                    onclick="showSessionHistory()">
+
+                    Session<br>
+                    History
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+/* =========================================================
+   MULTI-AGE REGISTER
+   ========================================================= */
+
+function showRegister() {
+
+    const groups =
+        selectedAgeGroups.length
+        ? selectedAgeGroups
+        : [currentAgeGroup];
+
+    const registerExists =
+        groups.some(
+            ageGroup =>
+                getTodayRegister(
+                    ageGroup
+                )
+        );
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showCoachDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Today's Register
+            </h2>
+
+            <div class="subtitle">
+
+                ${groups.join(" + ")}
+
+                ·
+
+                ${getDisplayDate(
+                    getTodayKey()
+                )}
+
+            </div>
+
+            ${
+                !registerExists
+
+                ? `
+
+                    <div class="info-box">
+
+                        Today's registers have not been
+                        opened yet.
+
+                        <br><br>
+
+                        Opening the register will create
+                        one register for each selected
+                        age group.
+
+                    </div>
+
+                    <button
+                        class="primary-button"
+                        onclick="
+                            openTodayRegister()
+                        ">
+
+                        Take Register
+
+                    </button>
+
+                `
+
+                : `
+
+                    <div class="
+                        register-status
+                        register-open
+                    ">
+
+                        Register open — you can
+                        edit it throughout today.
+
+                    </div>
+
+                    ${
+                        groups.map(
+                            ageGroup => {
+
+                                const register =
+                                    getTodayRegister(
+                                        ageGroup
+                                    );
+
+                                const active =
+                                    getActivePlayers(
+                                        ageGroup
+                                    );
+
+                                if (!register) {
+
+                                    return `
+
+                                        <div
+                                            class="
+                                                info-box
+                                                warning-box
+                                            ">
+
+                                            ${ageGroup} register
+                                            has not been opened.
+
+                                            <br><br>
+
+                                            <button
+                                                class="
+                                                    secondary-button
+                                                "
+                                                onclick="
+                                                    openAgeGroupRegister(
+                                                        '${ageGroup}'
+                                                    )
+                                                ">
+
+                                                Open ${ageGroup}
+
+                                            </button>
+
+                                        </div>
+
+                                    `;
+
+                                }
+
+                                return `
+
+                                    <div class="age-section">
+
+                                        <div class="
+                                            age-section-title
+                                        ">
+
+                                            <span>
+                                                ${ageGroup}
+                                            </span>
+
+                                            <span
+                                                class="
+                                                    age-section-count
+                                                ">
+
+                                                ${active.length}
+                                                player${
+                                                    active.length === 1
+                                                    ? ""
+                                                    : "s"
+                                                }
+
+                                            </span>
+
+                                        </div>
+
+                                        ${
+                                            active.length === 0
+
+                                            ? `
+
+                                                <div class="empty">
+
+                                                    No active players.
+
+                                                </div>
+
+                                            `
+
+                                            : active.map(
+                                                player => {
+
+                                                    const present =
+                                                        register.attendance[
+                                                            player.id
+                                                        ] === true;
+
+                                                    return `
+
+                                                        <div
+                                                            class="
+                                                                player-row
+                                                            ">
+
+                                                            <div
+                                                                class="
+                                                                    player-info
+                                                                ">
+
+                                                                <div
+                                                                    class="
+                                                                        player-name
+                                                                    ">
+
+                                                                    ${escapeHTML(
+                                                                        player.name
+                                                                    )}
+
+                                                                </div>
+
+                                                            </div>
+
+                                                            <label
+                                                                class="
+                                                                    toggle
+                                                                    ${
+                                                                        present
+                                                                        ? "present"
+                                                                        : "absent"
+                                                                    }
+                                                                ">
+
+                                                                <input
+                                                                    type="checkbox"
+                                                                    ${
+                                                                        present
+                                                                        ? "checked"
+                                                                        : ""
+                                                                    }
+                                                                    onchange="
+                                                                        setAttendance(
+                                                                            ${player.id},
+                                                                            this.checked
+                                                                        )
+                                                                    ">
+
+                                                                <span
+                                                                    class="
+                                                                        toggle-knob
+                                                                    ">
+                                                                </span>
+
+                                                                <span
+                                                                    class="
+                                                                        toggle-label
+                                                                    ">
+
+                                                                    ${
+                                                                        present
+                                                                        ? "PRESENT"
+                                                                        : "ABSENT"
+                                                                    }
+
+                                                                </span>
+
+                                                            </label>
+
+                                                        </div>
+
+                                                    `;
+
+                                                }
+                                            ).join("")
+                                        }
+
+                                    </div>
+
+                                `;
+
+                            }
+                        ).join("")
+                    }
+
+                    <br>
+
+                    <button
+                        class="green-button"
+                        onclick="
+                            showCoachAddPlayer()
+                        ">
+
+                        + Add Player
+
+                    </button>
+
+                    <br><br>
+
+                    <button
+                        class="primary-button"
+                        onclick="
+                            saveSession()
+                        ">
+
+                        Save Today's Registers
+
+                    </button>
+
+                `
+
+            }
+
+        </div>
+
+    `);
+
+}
+function openTodayRegister() {
+
+    const groups =
+        selectedAgeGroups.length
+        ? selectedAgeGroups
+        : [currentAgeGroup];
+
+    groups.forEach(
+        ageGroup => {
+
+            createTodayRegister(
+                ageGroup
+            );
+
+        }
+    );
+
+    showRegister();
+
+}
+
+function openAgeGroupRegister(
+    ageGroup
+) {
+
+    createTodayRegister(
+        ageGroup
+    );
+
+    showRegister();
+
+}
+
+function setAttendance(
+    playerID,
+    present
+) {
+
+    let foundAgeGroup = null;
+
+    const player =
+        findPlayerByID(
+            playerID
+        );
+
+    if (!player) {
+        return;
+    }
+
+    foundAgeGroup =
+        player.ageGroup;
+
+    const register =
+        getTodayRegister(
+            foundAgeGroup
+        );
+
+    if (
+        !register ||
+        register.submitted
+    ) {
+        return;
+    }
+
+    register.attendance[
+        playerID
+    ] =
+        present;
+
+    if (present) {
+
+        player.lastAttendanceDate =
+            getTodayKey();
+
+    }
+
+    saveData();
+
+    showRegister();
+
+}
+
+function saveSession() {
+
+    const groups =
+        selectedAgeGroups.length
+        ? selectedAgeGroups
+        : [currentAgeGroup];
+
+    groups.forEach(
+        ageGroup => {
+
+            const register =
+                getTodayRegister(
+                    ageGroup
+                );
+
+            if (
+                register &&
+                !register.submitted
+            ) {
+
+                submitDailyRegister(
+                    getTodayKey(),
+                    ageGroup,
+                    false
+                );
+
+            }
+
+        }
+    );
+
+    showCoachDashboard();
+
+}
+
+/* =========================================================
+   ROSTER
+   ========================================================= */
+
+function showRoster() {
+
+    const groups =
+        selectedAgeGroups.length
+        ? selectedAgeGroups
+        : [currentAgeGroup];
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showCoachDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Roster
+            </h2>
+
+            <div class="subtitle">
+
+                ${groups.join(" + ")} — Mark players you believe are registered on GMS TEST
+
+            </div>
+
+            ${
+                groups.map(ageGroup => {
+
+                    const active =
+                        getActivePlayers(
+                            ageGroup
+                        );
+
+                    return `
+
+                        <div class="age-section">
+
+                            <div class="
+                                age-section-title
+                            ">
+
+                                <span>
+                                    ${ageGroup}
+                                </span>
+
+                                <span
+                                    class="age-section-count">
+
+                                    ${active.length}
+
+                                </span>
+
+                            </div>
+
+                            ${
+                                active.length === 0
+
+                                ? `
+
+                                    <div class="empty">
+                                        No active players.
+                                    </div>
+
+                                `
+
+                                : active.map(
+                                    player => {
+
+                                    const seniorConfirmed =
+                                        player.gms === true;
+
+                                    const coachSuggested =
+                                        player.coachGmsSuggestion === true;
+
+                                    const toggleOn =
+                                        seniorConfirmed ||
+                                        coachSuggested;
+
+                                    return `
+
+                                        <div class="
+                                            player-row
+                                            player-management-row
+                                        ">
+
+                                            <div
+                                                class="player-info">
+
+                                                <div
+                                                    class="player-name">
+
+                                                    ${escapeHTML(
+                                                        player.name
+                                                    )}
+
+                                                </div>
+
+                                                ${
+    !seniorConfirmed && coachSuggested
+    ? `
+        <div
+            class="player-small">
+
+            Coach has suggested GMS
+
+        </div>
+    `
+    : ""
+}
+
+                                            </div>
+
+                                            <div
+                                                class="row-actions">
+
+                                                <label
+                                                    class="
+                                                        toggle
+                                                        gms-toggle
+                                                        ${
+                                                            toggleOn
+                                                            ? "confirmed"
+                                                            : "not-confirmed"
+                                                        }
+                                                        ${
+                                                            seniorConfirmed
+                                                            ? "locked"
+                                                            : ""
+                                                        }
+                                                    ">
+
+                                                    <input
+                                                        type="checkbox"
+                                                        ${
+                                                            toggleOn
+                                                            ? "checked"
+                                                            : ""
+                                                        }
+                                                        ${
+                                                            seniorConfirmed
+                                                            ? "disabled"
+                                                            : `
+                                                                onchange="
+                                                                    setCoachGMSSuggestion(
+                                                                        ${player.id},
+                                                                        this.checked
+                                                                    )
+                                                                "
+                                                            `
+                                                        }>
+
+                                                    <span
+                                                        class="toggle-knob">
+                                                    </span>
+
+                                                    <span
+                                                        class="toggle-label">
+                                                    </span>
+
+                                                </label>
+
+                                            </div>
+
+                                        </div>
+
+                                    `;
+
+                                }).join("")
+                            }
+
+                            <br>
+
+                            <button
+                                class="green-button"
+                                onclick="
+    showCoachAddPlayer(
+        true,
+        '${ageGroup}'
+    )
+">
+
+                                TEST ADD PLAYER
+
+                            </button>
+
+                        </div>
+
+                    `;
+
+                }).join("")
+            }
+
+            <div class="info-box">
+
+                Green means you are suggesting that you
+                believe the player is registered.
+
+                <br><br>
+
+                Once a Senior Member confirms GMS, the status
+                is locked for coaches.
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+function setCoachGMSSuggestion(
+    playerID,
+    suggested
+) {
+
+    const player =
+        findPlayerByID(
+            playerID
+        );
+
+    if (!player) {
+        return;
+    }
+
+    if (player.gms === true) {
+        return;
+    }
+
+    player.coachGmsSuggestion =
+        suggested;
+
+    saveData();
+
+    showRoster();
+
+}
+
+/* =========================================================
+   COACH ADD / RESTORE PLAYER
+   ========================================================= */
+
+function showCoachAddPlayer(
+    fromRoster = false
+    rosterAgeGroup = null
+) {
+
+    const groups =
+        rosterAgeGroup
+        ? [rosterAgeGroup]
+        : (
+            selectedAgeGroups.length
+            ? selectedAgeGroups
+            : [currentAgeGroup]
+        );
+
+    const ageGroupSelector =
+        groups.length > 1
+        ? `
+
+            <div class="form-group">
+
+                <label
+                    class="title"
+                    for="targetAgeGroup">
+
+                    Add / Restore to:
+
+                </label>
+
+                <select
+                    id="targetAgeGroup"
+                    class="text-input">
+
+                    ${
+                        groups.map(
+                            (age, index) =>
+                                `<option
+                                    value="${age}"
+                                    ${index === 0 ? "selected" : ""}>
+                                    ${age}
+                                </option>`
+                        ).join("")
+                    }
+
+                </select>
+
+            </div>
+
+        `
+        : "";
+
+    renderShell(`
+
+        <div class="card">
+
+                <button
+                    class="back-button"
+                    onclick="
+                        ${
+                            fromRoster
+                            ? "showRoster()"
+                            : "showRegister()"
+                        }
+                    ">
+                
+                    ← ${
+                        fromRoster
+                        ? "Roster"
+                        : "Register"
+                    }
+            </button>
+
+            <h2>
+                Add Player
+            </h2>
+
+            <div class="subtitle">
+
+                Add a new player or search the archive
+                for a returning player.
+
+            </div>
+
+            ${ageGroupSelector}
+
+            <div class="info-box">
+
+                If this player has previously been archived,
+                search for them below and restore their
+                existing record instead of creating a duplicate.
+
+            </div>
+
+            <div class="form-group">
+
+                <label
+                    class="title">
+
+                    Player Name
+
+                </label>
+
+                <input
+                    id="coachPlayerName"
+                    class="text-input"
+                    maxlength="100"
+                    autocomplete="off"
+                    oninput="
+                        searchArchivedPlayers()
+                    ">
+
+            </div>
+
+            <div id="archiveSearchResults"></div>
+
+            <br>
+
+            <button
+                class="green-button"
+                onclick="coachAddPlayer()">
+
+                Add as New Player
+
+            </button>
+
+        </div>
+
+    `);
+
+    document.getElementById(
+        "coachPlayerName"
+    ).focus();
+
+}
+
+
+function coachAddPlayer(
+    fromRoster = false,
+    rosterAgeGroup = null
+) {
+
+    const name =
+        document.getElementById(
+            "coachPlayerName"
+        ).value.trim();
+
+    if (!name) {
+
+        alert(
+            "Please enter a player name."
+        );
+
+        return;
+
+    }
+
+    const groups =
+        rosterAgeGroup
+        ? [rosterAgeGroup]
+        : (
+            selectedAgeGroups.length
+            ? selectedAgeGroups
+            : [currentAgeGroup]
+        );
+
+    if (!groups.length) {
+
+        alert(
+            "Please select an age group first."
+        );
+
+        return;
+
+    }
+
+    let targetAgeGroup =
+        groups[0];
+
+    /*
+        If multiple age groups are selected,
+        use the age group selected in the dropdown.
+    */
+
+    if (groups.length > 1) {
+
+        const select =
+            document.getElementById(
+                "targetAgeGroup"
+            );
+
+        if (!select || !select.value) {
+
+            alert(
+                "Please select an age group."
+            );
+
+            return;
+
+        }
+
+        targetAgeGroup =
+            select.value;
+
+    }
+
+    /*
+        Find players with the same name
+        across all age groups.
+    */
+
+    const matchingPlayers = [];
+
+    ageGroups.forEach(
+        ageGroup => {
+
+            (players[ageGroup] || [])
+                .forEach(
+                    player => {
+
+                        if (
+                            player.name &&
+                            player.name
+                                .trim()
+                                .toLowerCase() ===
+                            name.toLowerCase()
+                        ) {
+
+                            matchingPlayers.push({
+
+                                player:
+                                    player,
+
+                                ageGroup:
+                                    ageGroup
+
+                            });
+
+                        }
+
+                    }
+                );
+
+        }
+    );
+
+    /*
+        Check for an archived match first.
+    */
+
+    const archivedMatch =
+        matchingPlayers.find(
+            match =>
+                match.player.archived === true
+        );
+
+    if (archivedMatch) {
+
+        const restore =
+            confirm(
+                name +
+                " is already recorded as an archived player " +
+                "in " +
+                archivedMatch.ageGroup +
+                ".\n\n" +
+                "Would you like to restore their existing record " +
+                "to " +
+                targetAgeGroup +
+                "?"
+            );
+
+        if (restore) {
+
+            restoreArchivedPlayer(
+                archivedMatch.player.id,
+                fromRoster,
+                targetAgeGroup
+            );
+
+        }
+
+        return;
+
+    }
+
+    /*
+        Check for an active match.
+    */
+
+    const activeMatch =
+        matchingPlayers.find(
+            match =>
+                match.player.active === true &&
+                match.player.archived !== true
+        );
+
+    if (activeMatch) {
+
+        /*
+            Same age group.
+        */
+
+        if (
+            activeMatch.ageGroup ===
+            targetAgeGroup
+        ) {
+
+            alert(
+                name +
+                " is already registered in " +
+                targetAgeGroup +
+                ".\n\n" +
+                "A duplicate player has not been created."
+            );
+
+            return;
+
+        }
+
+        /*
+            Same name but different age group.
+            Allow the coach to confirm that this
+            is genuinely a different player.
+        */
+
+        const differentPlayer =
+            confirm(
+                name +
+                " is already registered in " +
+                activeMatch.ageGroup +
+                ".\n\n" +
+                "You are trying to add them to " +
+                targetAgeGroup +
+                ".\n\n" +
+                "If this is the same player, cancel.\n\n" +
+                "If this is a different player with the same name, " +
+                "press OK to continue."
+            );
+
+        if (!differentPlayer) {
+
+            return;
+
+        }
+
+    }
+
+    /*
+        ROSTER:
+        Add the player without requiring today's
+        register and without marking them present.
+    */
+
+    if (fromRoster) {
+
+        addPlayerToAgeGroup(
+            targetAgeGroup,
+            name,
+            false
+        );
+
+        saveData();
+
+        showRoster();
+
+        return;
+
+    }
+
+    /*
+        REGISTER:
+        Today's register must be open.
+    */
+
+    const register =
+        getTodayRegister(
+            targetAgeGroup
+        );
+
+    if (
+        !register ||
+        register.submitted
+    ) {
+
+        alert(
+            "Today's register is not open for "
+            + targetAgeGroup
+            + "."
+        );
+
+        return;
+
+    }
+
+    /*
+        Create the new player.
+    */
+
+    const newPlayer =
+        addPlayerToAgeGroup(
+            targetAgeGroup,
+            name,
+            false
+        );
+
+    /*
+        A player added during today's register
+        is automatically marked as attending.
+    */
+
+    register.attendance[
+        newPlayer.id
+    ] = true;
+
+    newPlayer.lastAttendanceDate =
+        getTodayKey();
+
+    saveData();
+
+    showRegister();
+
+}
+
+function searchArchivedPlayers() {
+
+    const input =
+        document.getElementById(
+            "coachPlayerName"
+        );
+
+    const results =
+        document.getElementById(
+            "archiveSearchResults"
+        );
+
+    if (!input || !results) {
+        return;
+    }
+
+    const search =
+        input.value.trim().toLowerCase();
+
+    if (!search) {
+
+        results.innerHTML = "";
+
+        return;
+
+    }
+
+    const matches = [];
+
+    /*
+        Search all age groups for archived players.
+    */
+
+    ageGroups.forEach(
+        ageGroup => {
+
+            (players[ageGroup] || [])
+                .forEach(
+                    player => {
+
+                        if (
+                            player.archived &&
+                            player.name &&
+                            player.name
+                                .toLowerCase()
+                                .includes(search)
+                        ) {
+
+                            matches.push({
+
+                                player:
+                                    player,
+
+                                previousAgeGroup:
+                                    ageGroup
+
+                            });
+
+                        }
+
+                    }
+                );
+
+        }
+    );
+
+    /*
+        No archived matches found.
+    */
+
+    if (matches.length === 0) {
+
+        results.innerHTML = `
+
+            <div class="info-box">
+
+                No archived player matches
+                <strong>
+                    "${escapeHTML(
+                        input.value.trim()
+                    )}"
+                </strong>.
+
+                <br><br>
+
+                You can add them as a new player if
+                this is a new registration.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    /*
+        Display archived matches.
+    */
+
+    results.innerHTML = `
+
+        <div class="
+            info-box
+            success-box
+        ">
+
+            Archived player found.
+
+            <br>
+
+            Select the player below to restore
+            their existing record.
+
+        </div>
+
+        ${
+            matches.map(
+                match => `
+
+                    <div class="list-row">
+
+                        <div class="list-title">
+
+                            ${escapeHTML(
+                                match.player.name
+                            )}
+
+                        </div>
+
+                        <div class="list-sub">
+
+                            Previously:
+                            ${escapeHTML(
+                                match.previousAgeGroup
+                            )}
+
+                            ${
+                                match.player.lastAttendanceDate
+                                ? `
+                                    · Last attended:
+                                    ${
+                                        getDisplayDate(
+                                            match.player.lastAttendanceDate
+                                        )
+                                    }
+                                `
+                                : ""
+                            }
+
+                        </div>
+
+                        <br>
+
+                        <button
+                            class="blue-button"
+                            onclick="
+                                restoreArchivedPlayer(
+                                    ${match.player.id}
+                                )
+                            ">
+
+                            Restore Player
+
+                        </button>
+
+                    </div>
+
+                `
+            ).join("")
+        }
+
+    `;
+
+}
+
+
+function restoreArchivedPlayer(
+    playerID,
+    fromRoster = false,
+    rosterAgeGroup = null
+) {
+
+    const player =
+        findPlayerByID(
+            playerID
+        );
+
+    if (!player) {
+        return;
+    }
+
+    const groups =
+        rosterAgeGroup
+        ? [rosterAgeGroup]
+        : (
+            selectedAgeGroups.length
+            ? selectedAgeGroups
+            : [currentAgeGroup]
+        );
+
+    if (!groups.length) {
+
+        alert(
+            "Please select an age group first."
+        );
+
+        return;
+
+    }
+
+    let targetAgeGroup =
+        groups[0];
+
+    /*
+        If multiple age groups are selected,
+        use the dropdown.
+    */
+
+    if (groups.length > 1) {
+
+        const select =
+            document.getElementById(
+                "targetAgeGroup"
+            );
+
+        if (!select || !select.value) {
+
+            alert(
+                "Please select the age group to restore the player to."
+            );
+
+            return;
+
+        }
+
+        targetAgeGroup =
+            select.value;
+
+    }
+
+    /*
+        REGISTER:
+        Make sure today's register is open.
+    */
+
+    let register = null;
+
+    if (!fromRoster) {
+
+        register =
+            getTodayRegister(
+                targetAgeGroup
+            );
+
+        if (
+            !register ||
+            register.submitted
+        ) {
+
+            alert(
+                "Today's register is not open for "
+                + targetAgeGroup
+                + "."
+            );
+
+            return;
+
+        }
+
+    }
+
+    /*
+        Confirm the restore.
+    */
+
+    const confirmed =
+        confirm(
+            "Restore "
+            + player.name
+            + " to "
+            + targetAgeGroup
+            + "?\n\n"
+            + "Their historical attendance will be retained.\n"
+            + (
+                fromRoster
+                ? "They will be added to the roster but NOT marked as present today.\n"
+                : "They will be marked as PRESENT today.\n"
+            )
+            + "GMS will be reset and require Senior confirmation."
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    /*
+        Remove the player from any existing
+        age-group array.
+    */
+
+    ageGroups.forEach(
+        ageGroup => {
+
+            if (!players[ageGroup]) {
+                return;
+            }
+
+            players[ageGroup] =
+                players[ageGroup].filter(
+                    item =>
+                        item.id !== player.id
+                );
+
+        }
+    );
+
+    /*
+        Update the player's current status.
+    */
+
+    player.ageGroup =
+        targetAgeGroup;
+
+    player.active =
+        true;
+
+    player.archived =
+        false;
+
+    player.gms =
+        false;
+
+    player.coachGmsSuggestion =
+        false;
+
+    /*
+        Add the player to the new age group.
+    */
+
+    if (!players[targetAgeGroup]) {
+
+        players[targetAgeGroup] = [];
+
+    }
+
+    players[targetAgeGroup].push(
+        player
+    );
+
+    /*
+        REGISTER:
+        Mark the restored player as present today.
+    */
+
+    if (!fromRoster) {
+
+        register.attendance[
+            player.id
+        ] = true;
+
+        player.lastAttendanceDate =
+            getTodayKey();
+
+    }
+
+    saveData();
+
+    /*
+        Return to the correct screen.
+    */
+
+    if (fromRoster) {
+
+        showRoster();
+
+    } else {
+
+        showRegister();
+
+    }
+
+}
+/* =========================================================
+   SESSION HISTORY
+   ========================================================= */
+
+function showSessionHistory() {
+
+    const groups =
+        selectedAgeGroups.length
+        ? selectedAgeGroups
+        : [currentAgeGroup];
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showCoachDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Session History
+            </h2>
+
+            <div class="subtitle">
+
+                ${groups.join(" + ")}
+
+            </div>
+
+            ${
+                groups.map(
+                    ageGroup => {
+
+                    const history =
+                        sessions[ageGroup] || [];
+
+                    return `
+
+                        <div class="age-section">
+
+                            <div class="
+                                age-section-title
+                            ">
+
+                                <span>
+                                    ${ageGroup}
+                                </span>
+
+                            </div>
+
+                            ${
+                                history.length === 0
+
+                                ? `
+
+                                    <div class="empty">
+                                        No sessions recorded yet.
+                                    </div>
+
+                                `
+
+                                : history
+                                    .slice()
+                                    .reverse()
+                                    .map(
+                                        session => `
+
+                                            <div
+                                                class="list-row">
+
+                                                <div
+                                                    class="list-title">
+
+                                                    ${session.date}
+
+                                                </div>
+
+                                                <div
+                                                    class="list-sub">
+
+                                                    ${session.present}
+                                                    of
+                                                    ${session.total}
+                                                    present
+
+                                                </div>
+
+                                            </div>
+
+                                        `
+                                    ).join("")
+                            }
+
+                        </div>
+
+                    `;
+
+                }).join("")
+            }
+
+        </div>
+
+    `);
+
+}
+
+/* =========================================================
+   SENIOR DASHBOARD
+   ========================================================= */
+
+function getArchiveReviewCount() {
+
+    return getAllActivePlayers()
+        .filter(
+            player =>
+                isArchiveReviewDue(player)
+        )
+        .length;
+
+}
+
+function showSeniorDashboard() {
+
+    const active =
+        getAllActivePlayers();
+
+    const gms =
+        active.filter(
+            player => player.gms
+        ).length;
+
+    const archiveReviewCount =
+        getArchiveReviewCount();
+
+    renderShell(`
+
+        <div class="card">
+
+            <h2>
+                Senior Dashboard
+            </h2>
+
+            <div class="subtitle">
+                Season ${currentSeason}
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-number">
+                        ${active.length}
+                    </div>
+
+                    <div class="stat-label">
+                        Active Players
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-number">
+                        ${gms}
+                    </div>
+
+                    <div class="stat-label">
+                        GMS Confirmed
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-number">
+                        ${active.length - gms}
+                    </div>
+
+                    <div class="stat-label">
+                        GMS Outstanding
+                    </div>
+
+                </div>
+
+            </div>
+
+            ${
+                archiveReviewCount > 0
+
+                ? `
+
+                    <div class="
+                        info-box
+                        archive-due
+                    ">
+
+                        <strong>
+                            ${archiveReviewCount}
+                        </strong>
+
+                        player${
+                            archiveReviewCount === 1
+                            ? ""
+                            : "s"
+                        }
+
+                        require an archive review
+                        because they have not attended
+                        for 12 weeks or more.
+
+                    </div>
+
+                `
+
+                : ""
+            }
+
+            <div class="menu-grid">
+
+                <button
+                    class="menu-button"
+                    onclick="showSeniorAgeGroups()">
+
+                    All Age<br>
+                    Groups
+
+                </button>
+
+                <button
+                    class="menu-button"
+                    onclick="showPlayerManagement()">
+
+                    Player<br>
+                    Management
+
+                </button>
+
+                <button
+                    class="menu-button"
+                    onclick="showArchiveReview()">
+
+                    Archive<br>
+                    Review
+                    ${
+                        archiveReviewCount > 0
+                        ? `<br>(${archiveReviewCount})`
+                        : ""
+                    }
+
+                </button>
+
+                <button
+                    class="menu-button"
+                    onclick="showArchiveList()">
+
+                    Archived<br>
+                    Players
+
+                </button>
+
+                <button
+                    class="menu-button blue"
+                    onclick="showNewSeason()">
+
+                    New<br>
+                    Season
+
+                </button>
+
+                <button
+                    class="menu-button"
+                    onclick="showPINManagement()">
+
+                    Manage<br>
+                    PINs
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+/* =========================================================
+   SENIOR ALL AGE GROUPS
+   ========================================================= */
+
+function showSeniorAgeGroups() {
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showSeniorDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                All Age Groups
+            </h2>
+
+            <div class="subtitle">
+
+                All active players grouped by age group.
+
+            </div>
+
+            ${
+                ageGroups.map(
+                    ageGroup => {
+
+                    const active =
+                        getActivePlayers(
+                            ageGroup
+                        );
+
+                    if (
+                        active.length === 0
+                    ) {
+                        return "";
+                    }
+
+                    const needsGMS =
+                        ageGroupNeedsGMSConfirmation(
+                            ageGroup
+                        );
+
+                    return `
+
+                        <div class="age-section">
+
+                            <div class="
+                                age-section-title
+                                ${
+                                    needsGMS
+                                    ? "age-section-warning"
+                                    : ""
+                                }
+                            ">
+
+                                <span>
+                                    ${ageGroup}
+                                </span>
+
+                                <span
+                                    class="age-section-count">
+
+                                    ${active.length}
+                                    player${
+                                        active.length === 1
+                                        ? ""
+                                        : "s"
+                                    }
+
+                                </span>
+
+                            </div>
+
+                            ${
+                                active.map(
+                                    player => `
+
+                                    <div class="player-row">
+
+                                        <div
+                                            class="player-info">
+
+                                            <div
+                                                class="player-name">
+
+                                                ${escapeHTML(
+                                                    player.name
+                                                )}
+
+                                            </div>
+
+                                        </div>
+
+                                        <span>
+
+                                            ${
+                                                player.gms
+                                                ? "GMS ✓"
+                                                : "GMS outstanding"
+                                            }
+
+                                        </span>
+
+                                    </div>
+
+                                `
+                                ).join("")
+                            }
+
+                        </div>
+
+                    `;
+
+                }).join("")
+            }
+
+        </div>
+
+    `);
+
+}
+
+/* =========================================================
+   ARCHIVE REVIEW
+   ========================================================= */
+
+function showArchiveReview() {
+
+    const reviewPlayers =
+        getAllActivePlayers()
+            .filter(
+                player =>
+                    isArchiveReviewDue(
+                        player
+                    )
+            );
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showSeniorDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Archive Review
+            </h2>
+
+            <div class="subtitle">
+
+                Review players who have not attended
+                for 12 weeks or more.
+
+            </div>
+
+            <div class="
+                info-box
+                warning-box
+            ">
+
+                <strong>
+                    Review only — nothing is automatic.
+                </strong>
+
+                <br><br>
+
+                A player is only archived when a Senior
+                Member decides that they should no longer
+                remain on the active register.
+
+                <br><br>
+
+                Holiday, injury or other known absences
+                can simply be left active.
+
+            </div>
+
+            ${
+                reviewPlayers.length === 0
+
+                ? `
+
+                    <div class="empty">
+
+                        No players currently require
+                        an archive review.
+
+                    </div>
+
+                `
+
+                : ageGroups.map(
+                    ageGroup => {
+
+                    const groupPlayers =
+                        reviewPlayers.filter(
+                            player =>
+                                player.ageGroup ===
+                                ageGroup
+                        );
+
+                    if (
+                        groupPlayers.length === 0
+                    ) {
+                        return "";
+                    }
+
+                    return `
+
+                        <div class="age-section">
+
+                            <div class="
+                                age-section-title
+                            ">
+
+                                <span>
+                                    ${ageGroup}
+                                </span>
+
+                                <span
+                                    class="age-section-count">
+
+                                    ${groupPlayers.length}
+
+                                </span>
+
+                            </div>
+
+                            ${
+                                groupPlayers.map(
+                                    player => {
+
+                                    const days =
+                                        getDaysSinceDate(
+                                            player.lastAttendanceDate
+                                        );
+
+                                    const weeks =
+                                        getWeeksSinceDate(
+                                            player.lastAttendanceDate
+                                        );
+
+                                    return `
+
+                                        <div
+                                            class="player-row">
+
+                                            <div
+                                                class="player-info">
+
+                                                <div
+                                                    class="player-name">
+
+                                                    ${escapeHTML(
+                                                        player.name
+                                                    )}
+
+                                                </div>
+
+                                                <div
+                                                    class="player-small">
+
+                                                    Last attended:
+                                                    ${
+                                                        getDisplayDate(
+                                                            player.lastAttendanceDate
+                                                        )
+                                                    }
+
+                                                    ·
+                                                    ${
+                                                        weeks
+                                                    }
+                                                    week${
+                                                        weeks === 1
+                                                        ? ""
+                                                        : "s"
+                                                    }
+
+                                                    ago
+
+                                                    ·
+                                                    ${days}
+                                                    days
+
+                                                </div>
+
+                                            </div>
+
+                                            <button
+                                                class="
+                                                    red-button
+                                                    small-button
+                                                "
+                                               onclick="
+                                                archivePlayer(
+                                                    ${player.id},
+                                                    'archiveReview'
+                                                )
+"
+                                                ">
+
+                                                Archive
+
+                                            </button>
+
+                                        </div>
+
+                                    `;
+
+                                }).join("")
+                            }
+
+                        </div>
+
+                    `;
+
+                }).join("")
+            }
+
+        </div>
+
+    `);
+
+}
+
+function archivePlayer(
+    playerID,
+    returnTo
+) {
+
+    const player =
+        findPlayerByID(
+            playerID
+        );
+
+    if (!player) {
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            "Archive "
+            + player.name
+            + "?\n\n"
+            + "Their historical attendance will be retained.\n"
+            + "They will disappear from active registers."
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    player.active =
+        false;
+
+    player.archived =
+        true;
+
+    player.coachGmsSuggestion =
+        false;
+
+    saveData();
+
+    if (
+        returnTo ===
+        "playerManagement"
+    ) {
+
+        showPlayerManagement(
+            player.ageGroup
+        );
+
+    } else {
+
+        showArchiveReview();
+
+    }
+
+}
+
+/* =========================================================
+   ARCHIVED PLAYER LIST
+   ========================================================= */
+
+function getAllArchivedPlayers() {
+
+    let result = [];
+
+    ageGroups.forEach(
+        ageGroup => {
+
+        (players[ageGroup] || [])
+            .forEach(player => {
+
+                if (player.archived) {
+
+                    result.push(player);
+
+                }
+
+            });
+
+    });
+
+    return result;
+
+}
+
+function showArchiveList() {
+
+    const archived =
+        getAllArchivedPlayers();
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showSeniorDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Archived Players
+            </h2>
+
+            <div class="subtitle">
+
+                Archived players remain available for
+                historical records and coach restoration.
+
+            </div>
+
+            ${
+                archived.length === 0
+
+                ? `
+
+                    <div class="empty">
+
+                        No players are currently archived.
+
+                    </div>
+
+                `
+
+                : ageGroups.map(
+                    ageGroup => {
+
+                    const groupPlayers =
+                        archived.filter(
+                            player =>
+                                player.ageGroup ===
+                                ageGroup
+                        );
+
+                    if (
+                        groupPlayers.length === 0
+                    ) {
+                        return "";
+                    }
+
+                    return `
+
+                        <div class="age-section">
+
+                            <div class="
+                                age-section-title
+                                archive-age-title
+                            ">
+
+                                <span>
+                                    ${ageGroup}
+                                </span>
+
+                                <span
+                                    class="age-section-count">
+
+                                    ${groupPlayers.length}
+
+                                </span>
+
+                            </div>
+
+                            ${
+                                groupPlayers.map(
+                                    player => `
+
+                                    <div
+                                        class="list-row">
+
+                                        <div
+                                            class="list-title">
+
+                                            ${escapeHTML(
+                                                player.name
+                                            )}
+
+                                        </div>
+
+                                        <div
+                                            class="list-sub">
+
+                                            Last attended:
+
+                                            ${
+                                                player.lastAttendanceDate
+                                                ? getDisplayDate(
+                                                    player.lastAttendanceDate
+                                                )
+                                                : "No recorded attendance"
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                `
+                                ).join("")
+                            }
+
+                        </div>
+
+                    `;
+
+                }).join("")
+            }
+
+            <br>
+
+            <div class="info-box">
+
+                Coaches can restore archived players through
+                <strong>+ Add Player</strong> when taking
+                a register.
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+/* =========================================================
+   PLAYER MANAGEMENT
+   ========================================================= */
+
+function showPlayerManagement(
+    selectedAge = null
+) {
+
+    if (selectedAge) {
+        currentAgeGroup =
+            selectedAge;
+    } else {
+        currentAgeGroup = null;
+    }
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showSeniorDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Player Management
+            </h2>
+
+            <div class="subtitle">
+
+                Add, archive and manage GMS status.
+
+                <br>
+
+                Yellow indicates that one or more
+                players require GMS confirmation.
+
+            </div>
+
+            <div class="age-grid">
+
+                ${
+                    ageGroups.map(
+                        age => {
+
+                        const needsGMS =
+                            ageGroupNeedsGMSConfirmation(
+                                age
+                            );
+
+                        const gmsCount =
+                            getActivePlayers(
+                                age
+                            ).filter(
+                                player =>
+                                    player.gms !== true
+                            ).length;
+
+                        return `
+
+                            <button
+                                class="
+                                    age-button
+                                    ${
+                                        needsGMS
+                                        ? "gms-needs-confirmation"
+                                        : ""
+                                    }
+                                    ${
+                                        currentAgeGroup === age
+                                        ? "selected-age"
+                                        : ""
+                                    }
+                                "
+                                onclick="
+                                    showPlayerManagement(
+                                        '${age}'
+                                    )
+                                ">
+
+                                ${age}${
+    gmsCount > 0
+    ? ` <span style="font-size:12px; font-weight:600; opacity:0.7;">(${gmsCount})</span>`
+    : ""
+}
+
+                            </button>
+
+                        `;
+
+                    }).join("")
+                }
+
+            </div>
+
+        </div>
+
+        ${
+            currentAgeGroup
+            ? renderPlayerManagementList(
+                currentAgeGroup
+            )
+            : ""
+        }
+
+    `);
+
+}
+
+function renderPlayerManagementList(
+    ageGroup
+) {
+
+    const active =
+        getActivePlayers(
+            ageGroup
+        );
+
+    return `
+
+        <div class="card">
+
+            <h3>
+                ${ageGroup}
+            </h3>
+
+            ${
+                active.length === 0
+
+                ? `
+
+                    <div class="empty">
+                        No active players.
+                    </div>
+
+                `
+
+                : active.map(
+                    player => `
+
+                    <div class="
+                        player-row
+                        player-management-row
+                    ">
+
+                        <div
+                            class="player-info">
+
+                            <div
+                                class="player-name">
+
+                                ${escapeHTML(
+                                    player.name
+                                )}
+
+                            </div>
+
+                            ${
+    player.coachGmsSuggestion && !player.gms
+    ? `
+        <div
+            class="player-small">
+
+            Coach has suggested GMS
+
+        </div>
+    `
+    : ""
+}
+
+                            <div
+                                class="player-small">
+
+                                Last attended:
+                                ${
+                                    player.lastAttendanceDate
+                                    ? new Date(
+                                        player.lastAttendanceDate
+                                    ).toLocaleDateString(
+                                        "en-GB"
+                                    )
+                                    : "No attendance recorded"
+                                }
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="row-actions">
+
+                            <label
+                                class="
+                                    toggle
+                                    gms-toggle
+                                    ${
+                                        player.gms
+                                        ? "confirmed"
+                                        : "not-confirmed"
+                                    }
+                                ">
+
+                                <input
+                                    type="checkbox"
+                                    ${
+                                        player.gms
+                                        ? "checked"
+                                        : ""
+                                    }
+                                    onchange="
+                                        setGMS(
+                                            ${player.id},
+                                            this.checked
+                                        )
+                                    ">
+
+                                <span
+                                    class="toggle-knob">
+                                </span>
+
+                                <span
+                                    class="toggle-label">
+                                </span>
+
+                            </label>
+
+                            <button
+                                class="
+                                    red-button
+                                    small-button
+                                "
+                                onclick="
+                                    archivePlayer(
+                                        ${player.id},
+                                        'playerManagement'
+                                    )
+                                ">
+
+                                Archive
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `
+                ).join("")
+            }
+
+            <br>
+
+            <button
+                class="green-button"
+                onclick="
+                    showSeniorAddPlayer(
+                        '${ageGroup}'
+                    )
+                ">
+
+                Add Player
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+function setGMS(
+    playerID,
+    confirmed
+) {
+
+    const player =
+        findPlayerByID(
+            playerID
+        );
+
+    if (!player) {
+        return;
+    }
+
+    player.gms =
+        confirmed;
+
+    if (confirmed) {
+
+        player.coachGmsSuggestion =
+            false;
+
+    }
+
+    saveData();
+
+    showPlayerManagement(
+        currentAgeGroup
+    );
+
+}
+
+/* =========================================================
+   SENIOR ADD PLAYER
+   ========================================================= */
+
+function showSeniorAddPlayer(
+    ageGroup
+) {
+
+    currentAgeGroup =
+        ageGroup;
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="
+                    showPlayerManagement(
+                        '${ageGroup}'
+                    )
+                ">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Add Player
+            </h2>
+
+            <div class="subtitle">
+                ${ageGroup}
+            </div>
+
+            <div class="form-group">
+
+                <label class="title">
+                    Player Name
+                </label>
+
+                <input
+                    id="seniorPlayerName"
+                    class="text-input"
+                    maxlength="100"
+                    autocomplete="off">
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="title">
+                    GMS Status
+                </label>
+
+                <label
+                    id="newGMSToggle"
+                    class="
+                        toggle
+                        gms-toggle
+                        not-confirmed
+                    ">
+
+                    <input
+                        id="newGMS"
+                        type="checkbox"
+                        onchange="
+                            updateNewGMSToggle()
+                        ">
+
+                    <span
+                        class="toggle-knob">
+                    </span>
+
+                    <span
+                        class="toggle-label">
+                    </span>
+
+                </label>
+
+            </div>
+
+            <button
+                class="green-button"
+                onclick="
+                    seniorAddPlayer(
+                        '${ageGroup}'
+                    )
+                ">
+
+                Add Player
+
+            </button>
+
+        </div>
+
+    `);
+
+    document.getElementById(
+        "seniorPlayerName"
+    ).focus();
+
+}
+
+function updateNewGMSToggle() {
+
+    const input =
+        document.getElementById(
+            "newGMS"
+        );
+
+    const toggle =
+        document.getElementById(
+            "newGMSToggle"
+        );
+
+    if (input.checked) {
+
+        toggle.classList.remove(
+            "not-confirmed"
+        );
+
+        toggle.classList.add(
+            "confirmed"
+        );
+
+    } else {
+
+        toggle.classList.remove(
+            "confirmed"
+        );
+
+        toggle.classList.add(
+            "not-confirmed"
+        );
+
+    }
+
+}
+
+function seniorAddPlayer(
+    ageGroup
+) {
+
+    const name =
+        document.getElementById(
+            "seniorPlayerName"
+        ).value.trim();
+
+    const gms =
+        document.getElementById(
+            "newGMS"
+        ).checked;
+
+    if (!name) {
+
+        alert(
+            "Please enter a player name."
+        );
+
+        return;
+    }
+
+    addPlayerToAgeGroup(
+        ageGroup,
+        name,
+        gms
+    );
+
+    showPlayerManagement(
+        ageGroup
+    );
+
+}
+
+function addPlayerToAgeGroup(
+    ageGroup,
+    name,
+    gms
+) {
+
+    if (!players[ageGroup]) {
+        players[ageGroup] = [];
+    }
+
+    const id =
+        Date.now()
+        + Math.floor(
+            Math.random() * 1000
+        );
+
+    const newPlayer = {
+
+        id:
+            id,
+
+        name:
+            name,
+
+        ageGroup:
+            ageGroup,
+
+        gms:
+            gms,
+
+        coachGmsSuggestion:
+            false,
+
+        active:
+            true,
+
+        archived:
+            false,
+
+        lastAttendanceDate:
+            null
+
+    };
+
+    players[ageGroup].push(
+        newPlayer
+    );
+
+    saveData();
+
+    return newPlayer;
+
+}
+
+/* =========================================================
+   NEW SEASON
+   ========================================================= */
+
+function showNewSeason() {
+
+    const nextSeason =
+        getNextSeason(
+            currentSeason
+        );
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showSeniorDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                New Season
+            </h2>
+
+            <div class="subtitle">
+
+                Move active players up one age group.
+
+            </div>
+
+            <div class="
+                info-box
+                warning-box
+            ">
+
+                <strong>
+                    Current season:
+                </strong>
+
+                ${currentSeason}
+
+                <br><br>
+
+                <strong>
+                    New season:
+                </strong>
+
+                ${nextSeason}
+
+            </div>
+
+            <h3>
+                Promotion Preview
+            </h3>
+
+            ${
+                ageGroups
+                    .slice(0, -1)
+                    .map(
+                        ageGroup => {
+
+                        const next =
+                            getNextAgeGroup(
+                                ageGroup
+                            );
+
+                        const count =
+                            getActivePlayers(
+                                ageGroup
+                            ).length;
+
+                        return `
+
+                            <div
+                                class="promotion-row">
+
+                                <span>
+
+                                    ${ageGroup}
+                                    →
+                                    ${next}
+
+                                </span>
+
+                                <strong>
+                                    ${count}
+                                </strong>
+
+                            </div>
+
+                        `;
+
+                    }).join("")
+            }
+
+            <div class="promotion-row">
+
+                <span>
+                    U18 → Leaving Active Register
+                </span>
+
+                <strong>
+
+                    ${
+                        getActivePlayers(
+                            "U18"
+                        ).length
+                    }
+
+                </strong>
+
+            </div>
+
+            <br>
+
+            <div class="
+                info-box
+                danger-box
+            ">
+
+                <strong>
+                    Check the numbers before confirming.
+                </strong>
+
+                <br><br>
+
+                This moves every active player up
+                one age group.
+
+            </div>
+
+            <button
+                class="blue-button"
+                onclick="
+                    confirmNewSeason()
+                ">
+
+                Confirm New Season
+
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+function confirmNewSeason() {
+
+    const nextSeason =
+        getNextSeason(
+            currentSeason
+        );
+
+    const confirmed =
+        confirm(
+            "Start season "
+            + nextSeason
+            + "?\n\n"
+            + "All active players will move up one age group.\n\n"
+            + "U18 players will leave the active register."
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    performNewSeason(
+        nextSeason
+    );
+
+}
+
+function performNewSeason(
+    nextSeason
+) {
+
+    const newPlayers = {};
+
+    ageGroups.forEach(
+        ageGroup => {
+
+            newPlayers[ageGroup] =
+                [];
+
+        }
+    );
+
+    ageGroups.forEach(
+        ageGroup => {
+
+        if (!players[ageGroup]) {
+            players[ageGroup] = [];
+        }
+
+        const inactive =
+            players[ageGroup]
+                .filter(
+                    player =>
+                        !player.active
+                );
+
+        inactive.forEach(
+            player => {
+
+                newPlayers[ageGroup]
+                    .push(player);
+
+            }
+        );
+
+        const active =
+            players[ageGroup]
+                .filter(
+                    player =>
+                        player.active
+                );
+
+        active.forEach(
+            player => {
+
+            const next =
+                getNextAgeGroup(
+                    ageGroup
+                );
+
+            if (next) {
+
+                player.ageGroup =
+                    next;
+
+                newPlayers[next]
+                    .push(player);
+
+            } else {
+
+                player.active =
+                    false;
+
+                newPlayers[ageGroup]
+                    .push(player);
+
+            }
+
+        });
+
+    });
+
+    players =
+        newPlayers;
+
+    currentSeason =
+        nextSeason;
+
+    saveData();
+
+    showSeniorDashboard();
+
+}
+
+/* =========================================================
+   PIN MANAGEMENT
+   ========================================================= */
+
+function showPINManagement() {
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showSeniorDashboard()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                Manage PINs
+            </h2>
+
+            <div class="subtitle">
+
+                Senior Members can change both access PINs.
+
+            </div>
+
+            <div class="list-row">
+
+                <div class="list-title">
+                    Coach PIN
+                </div>
+
+                <div class="list-sub">
+
+                    Used by coaches to access registers.
+
+                </div>
+
+                <br>
+
+                <button
+                    class="secondary-button"
+                    onclick="
+                        showChangePIN(
+                            'coach'
+                        )
+                    ">
+
+                    Change Coach PIN
+
+                </button>
+
+            </div>
+
+            <div class="list-row">
+
+                <div class="list-title">
+                    Senior Member PIN
+                </div>
+
+                <div class="list-sub">
+
+                    Used for full club access.
+
+                </div>
+
+                <br>
+
+                <button
+                    class="secondary-button"
+                    onclick="
+                        showChangePIN(
+                            'senior'
+                        )
+                    ">
+
+                    Change Senior Member PIN
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+function showChangePIN(
+    type
+) {
+
+    const title =
+        type === "coach"
+        ? "Change Coach PIN"
+        : "Change Senior Member PIN";
+
+    renderShell(`
+
+        <div class="card">
+
+            <button
+                class="back-button"
+                onclick="showPINManagement()">
+
+                ← Back
+
+            </button>
+
+            <h2>
+                ${title}
+            </h2>
+
+            <div class="form-group">
+
+                <label class="title">
+                    New PIN
+                </label>
+
+                <input
+                    id="newPIN"
+                    class="pin-input"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="8">
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="title">
+                    Confirm New PIN
+                </label>
+
+                <input
+                    id="confirmPIN"
+                    class="pin-input"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="8">
+
+            </div>
+
+            <div
+                id="changePINError"
+                class="error">
+            </div>
+
+            <button
+                class="green-button"
+                onclick="
+                    changePIN(
+                        '${type}'
+                    )
+                ">
+
+                Save New PIN
+
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+function changePIN(
+    type
+) {
+
+    const newPIN =
+        document.getElementById(
+            "newPIN"
+        ).value;
+
+    const confirmPIN =
+        document.getElementById(
+            "confirmPIN"
+        ).value;
+
+    const error =
+        document.getElementById(
+            "changePINError"
+        );
+
+    error.textContent = "";
+
+    if (
+        !newPIN ||
+        !confirmPIN
+    ) {
+
+        error.textContent =
+            "Please enter and confirm the new PIN.";
+
+        return;
+
+    }
+
+    if (
+        newPIN !== confirmPIN
+    ) {
+
+        error.textContent =
+            "The PINs do not match.";
+
+        return;
+
+    }
+
+    if (
+        !/^\d+$/.test(newPIN)
+    ) {
+
+        error.textContent =
+            "PIN must contain numbers only.";
+
+        return;
+
+    }
+
+    if (
+        newPIN.length < 4
+    ) {
+
+        error.textContent =
+            "PIN must be at least 4 digits.";
+
+        return;
+
+    }
+
+    if (type === "coach") {
+
+        coachPIN =
+            newPIN;
+
+    } else {
+
+        seniorPIN =
+            newPIN;
+
+    }
+
+    saveData();
+
+    showPINManagement();
+
+}
+
+/* =========================================================
+   START
+   ========================================================= */
+
+loadSavedData();
+
+closeExpiredRegisters();
+
+showWelcome();
+
+setInterval(
+    () => {
+
+        closeExpiredRegisters();
+
+    },
+    60000
+);
+
+</script>
+
+</body>
+</html>

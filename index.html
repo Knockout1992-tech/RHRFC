@@ -3216,7 +3216,7 @@ function showRoster() {
 
             <div class="subtitle">
 
-                ${groups.join(" + ")} — Mark players you believe are registered on GMS TEST
+                ${groups.join(" + ")} — Mark players you believe are registered on GMS
 
             </div>
 
@@ -3376,7 +3376,7 @@ function showRoster() {
     )
 ">
 
-                                TEST ADD PLAYER
+                                + ADD PLAYER
 
                             </button>
 
@@ -3437,7 +3437,7 @@ function setCoachGMSSuggestion(
    ========================================================= */
 
 function showCoachAddPlayer(
-    fromRoster = false
+    fromRoster = false,
     rosterAgeGroup = null
 ) {
 
@@ -3553,12 +3553,12 @@ function showCoachAddPlayer(
             <br>
 
             <button
-                class="green-button"
-                onclick="coachAddPlayer()">
+    class="green-button"
+    onclick="coachAddPlayer(${fromRoster}, '${rosterAgeGroup || ""}')">
 
-                Add as New Player
+    Add as New Player
 
-            </button>
+</button>
 
         </div>
 
